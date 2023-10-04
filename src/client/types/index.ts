@@ -13,6 +13,7 @@ export interface User {
     phoneVerified: SMALLINT; // DEFAULT 0
     password: CHAR; // 60
     created_at: DATETIME;
+    image_url: VARCHAR;
 }
 
 export interface Event {

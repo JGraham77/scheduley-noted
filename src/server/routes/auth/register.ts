@@ -38,8 +38,11 @@ router.post("/", async (req, res) => {
     try {
         const hashed = await utils.passwords.slinging_slasher(password);
         const result = await db.Users.register({ name, email, username, password: hashed, phone });
-        const token = utils.tokens.sign({ id: result.insertId! });
-        res.status(201).json({ message: "Successfully registered!", id: result.insertId, token });
+
+        res.status(201).json({
+            message: "Successfully registered!  Please check your email to verify your account!",
+            id: result.insertId,
+        });
     } catch (error) {
         res.status(500).json({ message: "Server's broke" });
     }
