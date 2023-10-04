@@ -27,3 +27,11 @@ export interface Event {
 export interface Payload {
     id: User["id"];
 }
+
+declare global {
+    namespace Express {
+        export interface Request {
+            user: Payload;
+        }
+    }
+}

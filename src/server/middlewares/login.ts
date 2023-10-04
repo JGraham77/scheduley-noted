@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import utils from "../utils";
 import db from "../db";
 
-const checkEm: RequestHandler = async (req, res, next) => {
+export const checkEm: RequestHandler = async (req, res, next) => {
     const { email, password } = req.body;
 
     const allAreGood = utils.validators.allStringsAreGood([
@@ -28,8 +28,8 @@ const checkEm: RequestHandler = async (req, res, next) => {
         }
 
         if (user.emailVerified) {
-            const token = utils.tokens.sign({ id: user.id });
-            res.status(200).json({ message: "Successfully logged in!", token });
+            req.user = { id: user.id };
+            next();
         } else {
             // services.email.auth.resendVerificationEmail();
             res.status(403).json({ message: "Verify your email in order to log in." });
