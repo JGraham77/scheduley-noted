@@ -28,6 +28,13 @@ export interface Payload {
     id: User["id"];
 }
 
+export interface Code {
+    id: CHAR; // 36, UUID
+    user_id: User["id"];
+    created_at: number; // Date.now()
+    expires_at: number; // Date.now()
+}
+
 declare global {
     namespace Express {
         export interface Request {

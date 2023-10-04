@@ -22,7 +22,10 @@ const register = ({ name, email, username, password, phone }: NewUser) =>
         phone,
     ]);
 
+const verify = (id: User["id"]) => Query("UPDATE Users SET emailVerified=1 WHERE id=$1", [id]);
+
 export default {
     by,
     register,
+    verify,
 };

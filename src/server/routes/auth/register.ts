@@ -37,7 +37,8 @@ router.post("/", async (req, res) => {
 
     try {
         const hashed = await utils.passwords.slinging_slasher(password);
-        const result = await db.Users.register({ name, email, username, password: hashed, phone });
+        const result = await db.users.register({ name, email, username, password: hashed, phone });
+        // verify email verification
 
         res.status(201).json({
             message: "Successfully registered!  Please check your email to verify your account!",

@@ -1,5 +1,7 @@
-import Users from "./queries/users";
+import users from "./queries/users";
+import codes from "./queries/codes";
 
 export default {
-    Users,
+    users,
+    codes,
 };

@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import utils from "../utils";
 import db from "../db";
+import { sendVerificationEmail } from "../services/email";
 
 export const checkEm: RequestHandler = async (req, res, next) => {
     const { email, password } = req.body;
@@ -17,7 +18,7 @@ export const checkEm: RequestHandler = async (req, res, next) => {
     const isEmail = utils.validators.isEmail(email);
 
     try {
-        const [user] = await db.Users.by(isEmail ? "email" : "username", email);
+        const [user] = await db.users.by(isEmail ? "email" : "username", email);
         if (!user) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
@@ -31,7 +32,7 @@ export const checkEm: RequestHandler = async (req, res, next) => {
             req.user = { id: user.id };
             next();
         } else {
-            // services.email.auth.resendVerificationEmail();
+            await sendVerificationEmail(user.id, user.email);
             res.status(403).json({ message: "Verify your email in order to log in." });
         }
     } catch (error) {
