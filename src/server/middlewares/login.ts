@@ -40,7 +40,3 @@ export const checkEm: RequestHandler = async (req, res, next) => {
         res.status(500).json({ message: "Could not process this request at this time." });
     }
 };
-
-export default {
-    checkEm,
-};

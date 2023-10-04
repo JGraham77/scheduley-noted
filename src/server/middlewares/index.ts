@@ -1,5 +1,7 @@
-import login from "./login";
+import { checkEm } from "./login";
+import { tokenCheck } from "./verify";
 
 export default {
-    login,
+    login: checkEm,
+    tokenCheck,
 };
