@@ -9,6 +9,14 @@ const App = (props: AppProps) => {
         <BrowserRouter>
             <Routes>
                 <Route
+                    path="/"
+                    element={
+                        <div className="mx-auto mt-5 w-25">
+                            <div className="alert alert-info text-center">Hello </div>
+                        </div>
+                    }
+                />
+                <Route
                     path="/verify"
                     element={<Verify />}
                 />
