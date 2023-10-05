@@ -1,13 +1,14 @@
 import express from "express";
 import db from "../../db";
 import utils from "../../utils";
+import { sendVerificationEmail } from "../../services/email";
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-    const { name, email, username, phone, password } = req.body;
+    const { name, email, username, password, phone } = req.body;
 
-    const missingProperties = utils.validators.checkForMissingProperties({ name, email, username, phone, password });
+    const missingProperties = utils.validators.checkForMissingProperties({ name, email, username, password, phone });
 
     if (missingProperties) {
         return res.status(400).json({ message: "Missing a property", missingProperties });
@@ -38,7 +39,7 @@ router.post("/", async (req, res) => {
     try {
         const hashed = await utils.passwords.slinging_slasher(password);
         const result = await db.users.register({ name, email, username, password: hashed, phone });
-        // verify email verification
+        await sendVerificationEmail(result.insertId!, email);
 
         res.status(201).json({
             message: "Successfully registered!  Please check your email to verify your account!",

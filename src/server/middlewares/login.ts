@@ -22,8 +22,8 @@ export const checkEm: RequestHandler = async (req, res, next) => {
         if (!user) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
-        const passwordsMatch = await utils.passwords.compareHash(password, user.password);
 
+        const passwordsMatch = await utils.passwords.compareHash(password, user.password);
         if (!passwordsMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
@@ -36,7 +36,6 @@ export const checkEm: RequestHandler = async (req, res, next) => {
             res.status(403).json({ message: "Verify your email in order to log in." });
         }
     } catch (error) {
-        const err = error as unknown as Error;
         console.log(error);
         res.status(500).json({ message: "Could not process this request at this time." });
     }
