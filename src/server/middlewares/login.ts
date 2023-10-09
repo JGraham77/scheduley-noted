@@ -7,7 +7,7 @@ export const checkEm: RequestHandler = async (req, res, next) => {
     const { email, password } = req.body;
 
     const allAreGood = utils.validators.allStringsAreGood([
-        [email, 128],
+        [email, 128, 6],
         [password, 1000],
     ]);
 
