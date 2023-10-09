@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import routes from "./routes";
+import router from "./routes";
 
 const isProduction = process.env.NODE_ENV === "production";
 const isDevelopment = process.env.NODE_ENV === "development";
@@ -16,7 +16,7 @@ if (isProduction) {
     app.use(express.static("public"));
 }
 
-app.use(routes);
+app.use(router);
 
 // all our api routes
 app.get("/api/hello", (req, res) => {

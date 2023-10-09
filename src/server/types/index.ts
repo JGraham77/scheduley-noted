@@ -8,9 +8,9 @@ export interface User {
     id: SERIAL;
     name: VARCHAR; // UNIQUE
     email: VARCHAR; // UNIQUE
-    emailVerified: SMALLINT; // DEFAULT 0
+    email_verified: SMALLINT; // DEFAULT 0
     phone: VARCHAR;
-    phoneVerified: SMALLINT; // DEFAULT 0
+    phone_verified: SMALLINT; // DEFAULT 0
     password: CHAR; // 60
     created_at: DATETIME;
     image_url: VARCHAR;
