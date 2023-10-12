@@ -144,9 +144,14 @@ const register: RequestHandler = async (req, res) => {
     }
 };
 
+const tokenCheck: RequestHandler = async (req, res) => {
+    res.status(200).json({ message: "All is good in the neighborhood!" });
+};
+
 export default {
     verify,
     magic,
     login,
     register,
+    tokenCheck,
 };
