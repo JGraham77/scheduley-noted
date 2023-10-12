@@ -11,6 +11,7 @@ export interface User {
     email_verified: SMALLINT; // DEFAULT 0
     phone: VARCHAR;
     phone_verified: SMALLINT; // DEFAULT 0
+    mfa_preference: "none" | "email" | "phone";
     password: CHAR; // 60
     created_at: DATETIME;
     image_url: VARCHAR;

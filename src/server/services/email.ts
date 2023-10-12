@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import db from "../db";
 import { mg, domain } from "../config";
 import { User } from "../types";
+import { create_8_digit_numb, create_uuid } from "./create_codes";
 
 if (!mg.key) throw new Error("Missing required key for mailgun");
 
@@ -32,11 +33,7 @@ const FIFTEEN_MINUTES = 1000 * 60 * 15;
 
 export const sendVerificationEmail = async (user_id: User["id"], email: string) => {
     try {
-        await db.codes.deleteBy.userId(user_id);
-        const uuid = v4();
-        const created_at = Date.now();
-        const expires_at = created_at + FIFTEEN_MINUTES;
-        await db.codes.create({ id: uuid, user_id, created_at, expires_at });
+        const uuid = await create_uuid(user_id);
         await sendMail({
             to: email,
             from: "<Registration> registration@jgraham.dev",
@@ -51,13 +48,27 @@ export const sendVerificationEmail = async (user_id: User["id"], email: string) 
     }
 };
 
+export const sendMFAEmail = async (user_id: User["id"], email: string) => {
+    try {
+        const id = await create_8_digit_numb(user_id);
+
+        await sendMail({
+            to: email,
+            from: "<Security> noreply@jgraham.dev",
+            subject: "Verify your account for SchudleyNoted!",
+            body: `
+            <h1>Your MFA code is <strong>${id}</strong></h1>
+            <a href="${domain.base}/login">Verify</a>
+        `,
+        });
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const sendMagicLink = async (user_id: User["id"], email: string) => {
     try {
-        await db.codes.deleteBy.userId(user_id);
-        const uuid = v4();
-        const created_at = Date.now();
-        const expires_at = created_at + FIFTEEN_MINUTES;
-        await db.codes.create({ id: uuid, user_id, created_at, expires_at });
+        const uuid = await create_uuid(user_id);
         await sendMail({
             to: email,
             from: "<Magic Link> noreply@atlc.dev",

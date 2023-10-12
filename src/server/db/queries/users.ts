@@ -25,8 +25,14 @@ const register = ({ name, email, username, password, phone }: NewUser) =>
 
 const verify = (id: User["id"]) => Query("UPDATE Users SET email_verified=1 WHERE id=$1", [id]);
 
+const change_mfa = (preference: User["mfa_preference"], user_id: User["id"]) =>
+    Query("UPDATE Users SET mfa_preference=$1 WHERE id=$2", [preference, user_id]);
+
 export default {
     by,
     register,
     verify,
+    update: {
+        mfa: change_mfa,
+    },
 };
